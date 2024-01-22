@@ -1,0 +1,69 @@
+.employee-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.employee-list-container {
+  width: 30%;
+}
+
+.employee-info-container {
+  width: 70%;
+}
+
+.employee-container > div {
+  border: 1px solid black;
+  height: 550px;
+  overflow-y: scroll;
+  padding: 10px;
+}
+
+.employee-info-title,
+.employee-list-title {
+  text-align: center;
+  border-bottom: 1px solid black;
+  padding-bottom: 10px;
+}
+
+.employee-list-elements {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.employee-list-elements span {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 5px;
+  padding: 10px 15px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.employee-list-elements span.active {
+  background-color: #dbdbdb;
+}
+
+.employee-info-elements {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.employee-info-elements > img {
+  height: 250px;
+  width: 250px;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+.emp-info-name {
+  text-align: center;
+  text-transform: uppercase;
+  padding: 5px;
+  font-size: 25px;
+}
