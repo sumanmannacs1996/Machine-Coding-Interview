@@ -64,7 +64,7 @@ function Folder({ explorer, handleInsertNode }) {
     );
   } else {
     return (
-      <div>
+      <div key={explorer.id}>
         <span>📄{explorer.name}</span>
       </div>
     );
