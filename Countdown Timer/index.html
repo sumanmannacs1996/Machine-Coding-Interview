@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="app.js"></script>
+    <title>Countdown Timer</title>
+  </head>
+  <body>
+    <div class="container">
+      <span class="container__title">Countdown Timer</span>
+
+      <div class="container__labels">
+        <p class="container__labels--label">Hours</p>
+        <p class="container__labels--label">Minutes</p>
+        <p class="container__labels--label">Second</p>
+      </div>
+
+      <div class="container__inputs">
+        <input
+          placeholder="00"
+          type="number"
+          maxlength="2"
+          oninput="this.value=this.value.slice(0,this.maxLength)"
+          class="container__inputs--input hour"
+        />
+        <p class="container__inputs--colon">:</p>
+
+        <input
+          placeholder="00"
+          type="number"
+          maxlength="2"
+          oninput="this.value=this.value.slice(0,this.maxLength)"
+          class="container__inputs--input minute"
+        />
+        <p class="container__inputs--colon">:</p>
+
+        <input
+          placeholder="00"
+          type="number"
+          maxlength="2"
+          oninput="this.value=this.value.slice(0,this.maxLength)"
+          class="container__inputs--input second"
+        />
+      </div>
+
+      <div class="container__buttons">
+        <button class="container__buttons--button start">Start</button>
+        <button class="container__buttons--button pause">Pause</button>
+        <button class="container__buttons--button reset">Reset</button>
+      </div>
+    </div>
+  </body>
+</html>
