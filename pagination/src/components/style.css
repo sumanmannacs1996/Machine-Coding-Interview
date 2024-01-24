@@ -1,0 +1,50 @@
+.products {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.products__single {
+  height: 250px;
+  padding: 20px;
+  background-color: #dbdbdb;
+  cursor: pointer;
+  border-radius: 10px;
+  text-align: center;
+  transition: all 0.4s ease;
+}
+
+.products__single:hover {
+  transform: scale(1.07);
+}
+
+.products__single > img {
+  width: 100%;
+  height: 85%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.pagination {
+  padding: 10px;
+  margin: 15px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination > span,
+.pagination > button,
+.pagination > select {
+  padding: 15px 20px;
+  border: 1px solid gray;
+  cursor: pointer;
+  font-size: 25px;
+  background-color: white;
+}
+
+.pagination__selected {
+  color: purple;
+  font-weight: bold;
+  background-color: #cacaca !important;
+}
