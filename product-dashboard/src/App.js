@@ -65,6 +65,7 @@ function App() {
         <FilterController
           filterState={filterState}
           setFilterState={setFilterState}
+          dispatch={dispatch}
         />
         <ProductsContainer
           products={state.products}

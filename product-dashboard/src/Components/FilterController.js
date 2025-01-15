@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import "../App.css";
 import { fetchData } from "../Utils";
 
-export default function FilterController({ filterState, setFilterState }) {
+export default function FilterController({
+  filterState,
+  setFilterState,
+  dispatch,
+}) {
   const [productCatagory, setProductCatagory] = useState([]);
   // const [selectedCatagory, setSelectedCatagory] = useState('');
 
@@ -104,6 +108,7 @@ export default function FilterController({ filterState, setFilterState }) {
             style={{ borderRadius: 6, border: "none", cursor: "pointer" }}
             onClick={() => {
               setFilterState({ ...filterState, filterRatting: 0 });
+              dispatch({ type: "CLEAR_FILTER_RATTING" });
             }}
           >
             Clear Ratting

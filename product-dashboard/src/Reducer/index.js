@@ -5,6 +5,7 @@ export const reducer = (state, action) => {
       return { ...state, products: [...state.products, ...payload] };
     case "REPLACE_PRODUCTS":
       return { ...state, products: [...payload] };
+      break;
     case "SORT_PORDUCTS":
       if (payload.sortOption && payload.sortType) {
         return {
@@ -28,12 +29,14 @@ export const reducer = (state, action) => {
           ),
         };
       } else {
-        return {
-          ...state,
-          products: [...state.productWithoutFilter],
-          productWithoutFilter: [],
-        };
+        return state;
       }
+    case "CLEAR_FILTER_RATTING":
+      return {
+        ...state,
+        products: [...state.productWithoutFilter],
+        productWithoutFilter: [],
+      };
     default:
       return state;
   }
