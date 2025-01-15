@@ -79,6 +79,37 @@ export default function FilterController({ filterState, setFilterState }) {
           </button>
         </div>
       </div>
+
+      <div className="filter-controller-box">
+        <span>Filter By Ratting:-</span>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div className="filter-catagory">
+            {[1, 2, 3, 4, 5].map((ratting) => (
+              <div key={ratting} className="filter-catagory--item">
+                <input
+                  type="radio"
+                  name="product-ratting"
+                  value={filterState.catagory?.slug}
+                  checked={filterState.filterRatting === ratting}
+                  id={ratting}
+                  onChange={(e) => {
+                    setFilterState({ ...filterState, filterRatting: ratting });
+                  }}
+                />
+                <label htmlFor={ratting}>{"⭐".repeat(ratting)}</label>
+              </div>
+            ))}
+          </div>
+          <button
+            style={{ borderRadius: 6, border: "none", cursor: "pointer" }}
+            onClick={() => {
+              setFilterState({ ...filterState, filterRatting: 0 });
+            }}
+          >
+            Clear Ratting
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

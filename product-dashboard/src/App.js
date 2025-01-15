@@ -8,12 +8,14 @@ import ProductsContainer from "./Components/ProductsContainer";
 
 const INITIAL_STATE = {
   products: [],
+  productWithoutFilter: [],
 };
 
 const filterInitilState = {
   sortOption: "",
   sortType: "asc",
   catagory: {},
+  filterRatting: 0,
 };
 //https://dummyjson.com/products/search?q=phone
 function App() {
@@ -47,8 +49,14 @@ function App() {
         dispatch({ type: "REPLACE_PRODUCTS", payload: productData.products });
       }
       dispatch({ type: "SORT_PORDUCTS", payload: filterState });
+      dispatch({ type: "FILTER_RATTING", payload: filterState.filterRatting });
     })();
-  }, [filterState.catagory?.url, filterState.sortOption, filterState.sortType]);
+  }, [
+    filterState.catagory?.url,
+    filterState.sortOption,
+    filterState.sortType,
+    filterState.filterRatting,
+  ]);
 
   return (
     <div className="App">

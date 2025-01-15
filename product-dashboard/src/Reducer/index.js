@@ -18,6 +18,22 @@ export const reducer = (state, action) => {
       } else {
         return state;
       }
+    case "FILTER_RATTING":
+      if (payload !== 0) {
+        return {
+          ...state,
+          productWithoutFilter: [...state.products],
+          products: state.products.filter(
+            (product) => parseInt(product.rating) === payload
+          ),
+        };
+      } else {
+        return {
+          ...state,
+          products: [...state.productWithoutFilter],
+          productWithoutFilter: [],
+        };
+      }
     default:
       return state;
   }
