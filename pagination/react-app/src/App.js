@@ -4,9 +4,9 @@ import Pagination from "./components/Pagination";
 
 function App() {
   return (
-    <div>
-      <Pagination />
-      {/* <PaginationBackend /> */}
+    <div className="main-container">
+      {/* <Pagination /> */}
+      <PaginationBackend />
     </div>
   );
 }

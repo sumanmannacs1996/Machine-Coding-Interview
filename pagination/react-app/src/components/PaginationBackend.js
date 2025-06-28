@@ -1,6 +1,80 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./style.css";
 import { fetchData } from "../utils/fetchData";
+
+function PaginationButtons({
+  totalItems,
+  page,
+  selectPageHandler,
+  pageSize,
+  handlePageSize,
+  handlePrev,
+  handleNext,
+  maxVisiblePages = 10,
+}) {
+  const totalPages = useMemo(() => {
+    return Math.ceil(totalItems / pageSize);
+  }, [totalItems, pageSize]);
+  const renderSingleButton = (currentPageIndex, key = currentPageIndex) => {
+    return (
+      <button
+        className={page === currentPageIndex ? "pagination__selected" : ""}
+        key={key}
+        onClick={() => selectPageHandler(currentPageIndex)}
+        disabled={currentPageIndex !== key}
+      >
+        {currentPageIndex}
+      </button>
+    );
+  };
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    if (totalPages <= maxVisiblePages) {
+      return [...Array(totalPages)].map((_, i) => renderSingleButton(i + 1));
+    } else {
+      const startPage = Math.max(1, page - Math.floor(maxVisiblePages / 2));
+      const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+      if (startPage > 1) {
+        if (startPage > 2) pageNumbers.push(renderSingleButton(1));
+        pageNumbers.push(renderSingleButton("...", "ellipsis-start"));
+      }
+      for (let i = startPage; i < endPage; i++) {
+        pageNumbers.push(renderSingleButton(i));
+      }
+      if (endPage < totalPages) {
+        pageNumbers.push(renderSingleButton("...", "ellipsis-end"));
+        if (endPage < totalPages - 1) {
+          pageNumbers.push(renderSingleButton(totalPages));
+        }
+      }
+      return pageNumbers;
+    }
+  };
+  return (
+    <div className="pagination">
+      <select
+        onChange={handlePageSize}
+        defaultValue={pageSize}
+        style={{ margin: "0 20px" }}
+      >
+        <option>10</option>
+        <option>20</option>
+        <option>50</option>
+        <option>100</option>
+      </select>
+      <button onClick={handlePrev} disabled={page === 1}>
+        ◀️
+      </button>
+      {renderPageNumbers()}
+      <button
+        onClick={handleNext}
+        disabled={page === Math.ceil(totalItems / pageSize)}
+      >
+        ▶️
+      </button>
+    </div>
+  );
+}
 
 function PaginationBackend() {
   const [products, setProducts] = useState([]);
@@ -56,36 +130,16 @@ function PaginationBackend() {
       )}
 
       {totalItems > 0 && (
-        <div className="pagination">
-          <select
-            onChange={handlePageSize}
-            defaultValue={pageSize}
-            style={{ margin: "0 20px" }}
-          >
-            <option>10</option>
-            <option>20</option>
-            <option>50</option>
-            <option>100</option>
-          </select>
-          <button onClick={handlePrev} disabled={page === 1}>
-            ◀️
-          </button>
-          {[...Array(Math.ceil(totalItems / pageSize))].map((_, i) => (
-            <span
-              className={page === i + 1 ? "pagination__selected" : ""}
-              key={i + 1}
-              onClick={() => selectPageHandler(i + 1)}
-            >
-              {i + 1}
-            </span>
-          ))}
-          <button
-            onClick={handleNext}
-            disabled={page === Math.ceil(totalItems / pageSize)}
-          >
-            ▶️
-          </button>
-        </div>
+        <PaginationButtons
+          page={page}
+          totalItems={totalItems}
+          pageSize={pageSize}
+          selectPageHandler={selectPageHandler}
+          handlePageSize={handlePageSize}
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+          maxVisiblePages={5}
+        />
       )}
     </div>
   );
