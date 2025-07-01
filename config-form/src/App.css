@@ -1,0 +1,65 @@
+.app-container {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-container {
+  width: 80%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 20px;
+}
+
+.reset-btn {
+  grid-column: 1/-1;
+  background-color: rgb(207, 207, 207);
+  border: none;
+  border-radius: 10px;
+  outline: none;
+}
+
+.submit-btn {
+  grid-column: 1 / -1; /* Span all columns */
+  background-color: rgb(38, 135, 38);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+}
+
+button:focus {
+  border: none;
+  outline: none;
+}
+
+button:hover {
+  border: none;
+  outline: none;
+}
+
+button:active {
+  transform: scale(0.99);
+}
+
+.inputContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.fieldContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+label {
+  font-weight: 600;
+}
