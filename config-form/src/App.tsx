@@ -1,4 +1,3 @@
-import { useState } from "react";
 import * as yup from "yup";
 import "./App.css";
 import ConfigForm from "./Components/ConfigForm";
@@ -134,13 +133,19 @@ export type fieldSchemaType = {
   validate: object;
   type: string;
   defaultValue: any;
+  options?: string[];
+  min?: number;
+  max?: number;
+  [key: string]: any; // Allow additional properties
 };
 
 function App() {
-  const onSubmit = (submitedData: Object) => {
+  const onSubmit = (submitedData: any) => {
     console.log("Fprm Successfullt Submited With The Data", submitedData);
   };
-  const onReset = () => {};
+  const onReset = () => {
+    // Reset logic here
+  };
   return (
     <div className="app-container">
       <ConfigForm

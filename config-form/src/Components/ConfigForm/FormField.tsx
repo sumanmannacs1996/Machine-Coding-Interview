@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import "../../App.css";
 import {
   CheckboxComponent,
@@ -22,14 +22,23 @@ const COMPONENT_MAPPING = {
   CHECKBOX: CheckboxComponent,
 };
 
-function FormField({ field, error, value, onChange }) {
-  const Componenet = COMPONENT_MAPPING[field.component];
+export type FormFieldProps = {
+  field: any;
+  error: string;
+  value: any;
+  onChange: (name: string, value: any) => void;
+};
+
+function FormField({ field, error, value, onChange }: FormFieldProps) {
+  const Componenet = (COMPONENT_MAPPING as Record<string, React.ElementType>)[
+    field.component
+  ];
   if (Componenet) {
     return (
       <div className="inputContainer">
         <Componenet
           {...field}
-          onChange={(value) => onChange(field.name, value)}
+          onChange={(value: any) => onChange(field.name, value)}
           value={value}
         />
         {error && (

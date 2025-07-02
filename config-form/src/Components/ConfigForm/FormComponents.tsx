@@ -1,7 +1,24 @@
 import "../../App.css";
 
-export const TextComponent = ({ name, label, isRequire, onChange, value }) => {
-  const handleBlur = (e) => {
+type FieldProps = {
+  name: string;
+  label: string;
+  isRequire: boolean;
+  onChange: (value: any) => void;
+  value: any;
+  options?: string[];
+  min?: number;
+  max?: number;
+};
+
+export const TextComponent = ({
+  name,
+  label,
+  isRequire,
+  onChange,
+  value,
+}: FieldProps) => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   };
   return (
@@ -27,8 +44,8 @@ export const PasswordComponent = ({
   isRequire,
   onChange,
   value,
-}) => {
-  const handleBlur = (e) => {
+}: FieldProps) => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   };
   return (
@@ -54,7 +71,7 @@ export const CheckboxComponent = ({
   isRequire,
   onChange,
   value,
-}) => {
+}: FieldProps) => {
   return (
     <div className="fieldContainer">
       <input
@@ -77,18 +94,18 @@ export const CheckboxComponent = ({
 export const RadioComponent = ({
   name,
   label,
-  options,
+  options = [],
   isRequire,
   onChange,
   value,
-}) => {
+}: FieldProps) => {
   return (
     <div className="fieldContainer">
       <label htmlFor={name}>
         {label}
         {isRequire && <span style={{ color: "red" }}>*</span>}
       </label>
-      {options.map((option) => (
+      {options.map((option: string) => (
         <span key={option}>
           <input
             type="radio"
@@ -105,7 +122,13 @@ export const RadioComponent = ({
   );
 };
 
-export const DateComponent = ({ name, label, isRequire, onChange, value }) => {
+export const DateComponent = ({
+  name,
+  label,
+  isRequire,
+  onChange,
+  value,
+}: FieldProps) => {
   return (
     <div className="fieldContainer">
       <label htmlFor={name}>
@@ -132,7 +155,7 @@ export const SliderComponent = ({
   min,
   max,
   value,
-}) => {
+}: FieldProps) => {
   return (
     <div className="fieldContainer">
       <label htmlFor={name}>
@@ -155,11 +178,11 @@ export const SliderComponent = ({
 export const SelectComponent = ({
   name,
   label,
-  options,
+  options = [],
   isRequire,
   onChange,
   value,
-}) => {
+}: FieldProps) => {
   return (
     <div className="fieldContainer">
       <label htmlFor={name}>
@@ -189,11 +212,11 @@ export const SelectComponent = ({
 export const MultySelectComponent = ({
   name,
   label,
-  options,
+  options = [],
   isRequire,
   onChange,
   value,
-}) => {
+}: FieldProps) => {
   return (
     <div className="fieldContainer">
       <label htmlFor={name}>

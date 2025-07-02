@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import * as yup from "yup";
 import FormField from "./FormField";
 import "../../App.css";
 import type { fieldSchemaType } from "../../App";
 export type ConfigFormType = {
   schema: fieldSchemaType[];
-  onSubmit: (submitedData: any) => {};
-  onReset: () => {};
+  onSubmit: (submitedData: any) => void;
+  onReset: () => void;
 };
 
 function ConfigForm({ schema, onSubmit, onReset }: ConfigFormType) {
@@ -18,7 +18,9 @@ function ConfigForm({ schema, onSubmit, onReset }: ConfigFormType) {
     {}
   );
   const [formData, setFormData] = useState(formDefaultValue);
-  const [validationErrors, setValidationErrors] = useState({});
+  const [validationErrors, setValidationErrors] = useState<
+    Record<string, string>
+  >({});
 
   const validationSchema: Record<string, any> = yup.object().shape(
     schema.reduce((acc: Record<string, any>, field: fieldSchemaType) => {
@@ -29,7 +31,7 @@ function ConfigForm({ schema, onSubmit, onReset }: ConfigFormType) {
     }, {})
   );
 
-  const handleSumit = async (e) => {
+  const handleSumit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await validationSchema.validate(formData, { abortEarly: false });
@@ -51,7 +53,7 @@ function ConfigForm({ schema, onSubmit, onReset }: ConfigFormType) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handelReset = (e) => {
+  const handelReset = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setFormData({});
     setValidationErrors(formDefaultValue);
