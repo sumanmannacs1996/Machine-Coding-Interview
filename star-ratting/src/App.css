@@ -1,0 +1,23 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.star-rating-contaner {
+  font-size: 30px;
+}
+
+.star {
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.star.active {
+  color: hotpink;
+}
+
+.star.hover {
+  color: gold;
+}
