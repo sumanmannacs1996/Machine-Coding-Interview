@@ -1,6 +1,6 @@
 import "../../App.css";
 
-export const TextComponent = ({ name, label, isRequire, onChange }) => {
+export const TextComponent = ({ name, label, isRequire, onChange, value }) => {
   const handleBlur = (e) => {
     onChange(e.target.value);
   };
@@ -10,12 +10,24 @@ export const TextComponent = ({ name, label, isRequire, onChange }) => {
         {label}
         {isRequire && <span style={{ color: "red" }}>*</span>}
       </label>
-      <input type="text" id={name} name={name} onChange={handleBlur} />
+      <input
+        type="text"
+        id={name}
+        name={name}
+        onChange={handleBlur}
+        value={value}
+      />
     </div>
   );
 };
 
-export const PasswordComponent = ({ name, label, isRequire, onChange }) => {
+export const PasswordComponent = ({
+  name,
+  label,
+  isRequire,
+  onChange,
+  value,
+}) => {
   const handleBlur = (e) => {
     onChange(e.target.value);
   };
@@ -25,12 +37,24 @@ export const PasswordComponent = ({ name, label, isRequire, onChange }) => {
         {label}
         {isRequire && <span style={{ color: "red" }}>*</span>}
       </label>
-      <input type="password" id={name} name={name} onChange={handleBlur} />
+      <input
+        type="password"
+        id={name}
+        name={name}
+        onChange={handleBlur}
+        value={value}
+      />
     </div>
   );
 };
 
-export const CheckboxComponent = ({ name, label, isRequire, onChange }) => {
+export const CheckboxComponent = ({
+  name,
+  label,
+  isRequire,
+  onChange,
+  value,
+}) => {
   return (
     <div className="fieldContainer">
       <input
@@ -40,6 +64,7 @@ export const CheckboxComponent = ({ name, label, isRequire, onChange }) => {
         onChange={(e) => {
           onChange(e.target.checked);
         }}
+        checked={value}
       />
       <label htmlFor={name}>
         {label}
@@ -55,6 +80,7 @@ export const RadioComponent = ({
   options,
   isRequire,
   onChange,
+  value,
 }) => {
   return (
     <div className="fieldContainer">
@@ -70,6 +96,7 @@ export const RadioComponent = ({
             id={option}
             value={option}
             onChange={(e) => onChange(e.target.value)}
+            checked={value === option}
           />
           <label htmlFor={option}>{option}</label>
         </span>
@@ -78,7 +105,7 @@ export const RadioComponent = ({
   );
 };
 
-export const DateComponent = ({ name, label, isRequire, onChange }) => {
+export const DateComponent = ({ name, label, isRequire, onChange, value }) => {
   return (
     <div className="fieldContainer">
       <label htmlFor={name}>
@@ -90,6 +117,7 @@ export const DateComponent = ({ name, label, isRequire, onChange }) => {
         id={name}
         name={name}
         onChange={(e) => onChange(e.target.value)}
+        value={value}
         placeholder="MM/DD/YYYY"
       />
     </div>
@@ -103,6 +131,7 @@ export const SliderComponent = ({
   onChange,
   min,
   max,
+  value,
 }) => {
   return (
     <div className="fieldContainer">
@@ -115,6 +144,7 @@ export const SliderComponent = ({
         id={name}
         name={name}
         onChange={(e) => onChange(e.target.value)}
+        value={value}
         min={min}
         max={max}
       />
@@ -128,6 +158,7 @@ export const SelectComponent = ({
   options,
   isRequire,
   onChange,
+  value,
 }) => {
   return (
     <div className="fieldContainer">
@@ -140,7 +171,11 @@ export const SelectComponent = ({
         onChange={(e) => {
           onChange(e.target.value);
         }}
+        value={value}
       >
+        <option key={"unselected"} value="" selected disabled>
+          Select One Options
+        </option>
         {options.map((option) => (
           <option key={option} value={option}>
             {option}
@@ -157,6 +192,7 @@ export const MultySelectComponent = ({
   options,
   isRequire,
   onChange,
+  value,
 }) => {
   return (
     <div className="fieldContainer">
@@ -167,17 +203,12 @@ export const MultySelectComponent = ({
       <select
         id={name}
         onChange={(e) => {
-          const selectedList = [];
-          console.log(e.target.options);
-          for (let i = 0; i < e.target.options.length; i++) {
-            const option = e.target.options[i];
-            if (option.selected) {
-              selectedList.push(option.value);
-            }
-          }
-          onChange(selectedList);
+          const options = [...e.target.selectedOptions];
+          const values = options.map((option) => option.value);
+          onChange(values);
         }}
         multiple={true}
+        value={value}
       >
         {options.map((option) => (
           <option key={option} value={option}>

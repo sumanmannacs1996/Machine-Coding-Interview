@@ -2,13 +2,26 @@ import React, { useState } from "react";
 import * as yup from "yup";
 import FormField from "./FormField";
 import "../../App.css";
+import type { fieldSchemaType } from "../../App";
+export type ConfigFormType = {
+  schema: fieldSchemaType[];
+  onSubmit: (submitedData: any) => {};
+  onReset: () => {};
+};
 
-function ConfigForm({ schema, onSubmit, onReset }) {
-  const [formData, setFormData] = useState({});
+function ConfigForm({ schema, onSubmit, onReset }: ConfigFormType) {
+  const formDefaultValue: Record<string, any> = schema.reduce(
+    (acc: Record<string, any>, field: fieldSchemaType) => {
+      acc[field.name] = field.defaultValue;
+      return acc;
+    },
+    {}
+  );
+  const [formData, setFormData] = useState(formDefaultValue);
   const [validationErrors, setValidationErrors] = useState({});
 
-  const validationSchema = yup.object().shape(
-    schema.reduce((acc, field) => {
+  const validationSchema: Record<string, any> = yup.object().shape(
+    schema.reduce((acc: Record<string, any>, field: fieldSchemaType) => {
       if (field.validate) {
         acc[field.name] = field.validate;
       }
@@ -22,23 +35,26 @@ function ConfigForm({ schema, onSubmit, onReset }) {
       await validationSchema.validate(formData, { abortEarly: false });
       setValidationErrors({});
       onSubmit(formData);
-    } catch (errors) {
-      const validationErrors = errors.inner.reduce((acc, error) => {
-        acc[error.path] = error.message;
-        return acc;
-      }, {});
+    } catch (errors: any) {
+      const validationErrors: Record<string, any> = errors.inner.reduce(
+        (acc: Record<string, any>, error: any) => {
+          acc[error.path] = error.message;
+          return acc;
+        },
+        {}
+      );
       setValidationErrors(validationErrors);
     }
   };
 
-  const handelChange = (name: string, value) => {
+  const handelChange = (name: string, value: any) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handelReset = (e) => {
     e.preventDefault();
     setFormData({});
-    setValidationErrors({});
+    setValidationErrors(formDefaultValue);
     onReset();
   };
 

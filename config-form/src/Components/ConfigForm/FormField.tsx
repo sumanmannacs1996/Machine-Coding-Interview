@@ -30,6 +30,7 @@ function FormField({ field, error, value, onChange }) {
         <Componenet
           {...field}
           onChange={(value) => onChange(field.name, value)}
+          value={value}
         />
         {error && (
           <span style={{ color: "red", textAlign: "center" }}>{error}</span>

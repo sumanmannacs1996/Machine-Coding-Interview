@@ -11,6 +11,7 @@ const userDetailsSchema = [
     isRequire: true,
     validate: yup.string().required("Name is Require"),
     type: "text",
+    defaultValue: "",
   },
   {
     component: "TEXT_FEILD",
@@ -22,6 +23,7 @@ const userDetailsSchema = [
       .email("Invalid Email Adress Provided")
       .required("Email is Require"),
     type: "text",
+    defaultValue: "",
   },
   {
     component: "PASSWORD_FEILD",
@@ -33,6 +35,7 @@ const userDetailsSchema = [
       .required("Password is Require")
       .min(8, "Password Must Be Atleast 8 Characters"),
     type: "password",
+    defaultValue: "",
   },
   {
     component: "PASSWORD_FEILD",
@@ -44,6 +47,7 @@ const userDetailsSchema = [
       .oneOf([yup.ref("password")], "Conform Password Must Match")
       .required("Conform Password is Require"),
     type: "password",
+    defaultValue: "",
   },
   {
     component: "RADIO_BUTTON",
@@ -53,6 +57,7 @@ const userDetailsSchema = [
     options: ["Male", "Female", "Other"],
     validate: yup.string().required("Gender is Require"),
     type: "radio",
+    defaultValue: undefined,
   },
   {
     component: "DATE_PICKER",
@@ -61,6 +66,7 @@ const userDetailsSchema = [
     isRequire: true,
     validate: yup.date().required("Birth Date is Require"),
     type: "date",
+    defaultValue: undefined,
   },
   {
     component: "SELECT_FEILD",
@@ -76,6 +82,7 @@ const userDetailsSchema = [
       )
       .required("Job Type Is Require"),
     type: "select",
+    defaultValue: "",
   },
   {
     component: "MULTI_SELECT_FEILD",
@@ -89,6 +96,7 @@ const userDetailsSchema = [
       .of(yup.string().required("Option is required")) // Each selected option must be a string and required
       .required("Technologies Are Required"), // The entire array field is required,
     type: "select",
+    defaultValue: [],
   },
   {
     component: "SLIDER_FEILD",
@@ -99,9 +107,10 @@ const userDetailsSchema = [
     max: 5,
     validate: yup
       .number()
-      .min(1, "Ratting must be atleast 1")
+      .min(0, "Ratting must be atleast 1")
       .max(5, "Ratting must not more than 5"),
     type: "range",
+    defaultValue: "0",
   },
   {
     component: "CHECKBOX",
@@ -113,11 +122,22 @@ const userDetailsSchema = [
       .oneOf([true], "You Must Accept The Term And Condition")
       .required("Please Accept The Term And Condition"),
     type: "date",
+    defaultValue: false,
   },
 ];
 
+export type fieldSchemaType = {
+  component: string;
+  name: string;
+  label: string;
+  isRequire: boolean;
+  validate: object;
+  type: string;
+  defaultValue: any;
+};
+
 function App() {
-  const onSubmit = (submitedData) => {
+  const onSubmit = (submitedData: Object) => {
     console.log("Fprm Successfullt Submited With The Data", submitedData);
   };
   const onReset = () => {};
