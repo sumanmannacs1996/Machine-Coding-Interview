@@ -1,0 +1,21 @@
+.homeContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.products {
+  height: 100%;
+  width: 85%;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.filter {
+  height: 100%;
+  width: 15%;
+  border: 1px solid black;
+  border-radius: 10px;
+}

@@ -1,0 +1,22 @@
+.appWrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.appHeader {
+  height: 10%;
+  width: 100%;
+}
+
+.appMain {
+  height: 85%;
+  width: 100%;
+  padding: 0px 5px;
+}
+
+.appFooter {
+  height: 5%;
+  width: 100%;
+}

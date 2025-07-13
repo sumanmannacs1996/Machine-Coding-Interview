@@ -1,0 +1,97 @@
+.productsWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.productListContiner {
+  height: 90%;
+  width: 100%;
+  padding: 15px;
+  display: grid;
+  overflow-y: scroll;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+
+.prouctCard {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid black;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.prouctCard:hover {
+  transform: scale(1.07);
+}
+
+.prouctCard > img {
+  width: 100%;
+  height: 80%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.prouctCard__title {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.prouctCard__other {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+}
+
+.prouctCard__other__price {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.paginationContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 10%;
+  padding: 10px 50px;
+}
+
+.paginationContainer__buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.paginationContainer__buttons > button,
+.paginationContainer__buttons > span,
+.paginationContainer > select {
+  height: 34px;
+  width: 50px;
+  border: 1px solid black;
+  cursor: pointer;
+  background-color: white;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination__selected {
+  background-color: lightskyblue !important;
+}

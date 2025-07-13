@@ -1,0 +1,18 @@
+.star-rating-contaner {
+  height: 100%;
+  width: 100%;
+  font-size: 30px;
+}
+
+.star {
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.star.active {
+  color: hotpink;
+}
+
+.star.hover {
+  color: gold;
+}

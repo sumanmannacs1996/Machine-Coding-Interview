@@ -1,0 +1,17 @@
+.filterContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 20px 10px;
+}
+
+.filterElement {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
