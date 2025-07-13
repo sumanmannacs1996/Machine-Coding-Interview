@@ -5,7 +5,8 @@ function Footer() {
   return (
     <div className={styles.footer}>
       <span>
-        Copyright {new Date().getFullYear()} Acme Corp. All rights reserved.
+        Copyright {new Date().getFullYear()} Suman Manna Corp. All rights
+        reserved.
       </span>
     </div>
   );
