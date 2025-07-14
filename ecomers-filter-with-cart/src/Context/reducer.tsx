@@ -1,5 +1,3 @@
-import { filterInitilState } from "./context";
-
 export const shopingCartReducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
@@ -13,6 +11,7 @@ export const shopingCartReducer = (state, action) => {
   }
 };
 
+/*
 export const filterReducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
@@ -32,3 +31,4 @@ export const filterReducer = (state, action) => {
       return state;
   }
 };
+*/

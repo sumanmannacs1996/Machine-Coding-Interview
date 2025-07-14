@@ -1,25 +1,22 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import styles from "./Filter.module.css";
 import { getEcomersState } from "../../Context/context";
 import StarRating from "../starRatting/StarRatting";
-import { useSearchParams } from "react-router-dom";
-
-export const FILER_MAP_WITH_DISPATCH_TYPE = {
-  SORT_BY: "sortType",
-  SORT_TYPE: "sortType",
-  CATEGORIES: "category",
-  RATTING: "ratting",
-  SEARCH: "search",
-};
+import { useUpdateSearchParams } from "../../hooks/useUpdateSearchParams";
+import { useGetSearchParams } from "../../hooks/useGetSearchParams";
 
 function Filter() {
-  const [searchParams, setSerchParams] = useSearchParams();
+  // const [searchParams, setSerchParams] = useSearchParams();
+  const { removeSearchParams, updateSearchParams } = useUpdateSearchParams();
+  const {
+    sortBy = "",
+    sortType = "",
+    ratting = "",
+    category = "",
+  } = useGetSearchParams();
   const {
     state: { products = [] },
-    filterState,
-    filterDispatch,
   } = getEcomersState();
-  const { sortBy, sortType, ratting, category } = filterState;
   const catagoryList = useMemo(() => {
     if (products && products.length > 0) {
       const allCatagory = products.map((product) => product.category);
@@ -29,29 +26,13 @@ function Filter() {
     }
   }, [products]);
 
-  useEffect(() => {
-    if (searchParams.size) {
-      searchParams.forEach((value, key) => {
-        filterDispatch({
-          type: FILER_MAP_WITH_DISPATCH_TYPE[key],
-          payload: value,
-        });
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    setSerchParams(filterState);
-  }, [filterState]);
   return (
     <div className={styles.filterContainer}>
       <div style={{ display: "flex", gap: "20px" }}>
         <div className={styles.filterElement}>
           <label>Sort By:-</label>
           <select
-            onChange={(e) =>
-              filterDispatch({ type: "SORT_BY", payload: e.target.value })
-            }
+            onChange={(e) => updateSearchParams({ sortBy: e.target.value })}
             value={sortBy}
           >
             {["", "price", "rating"].map((sortType) => (
@@ -64,9 +45,8 @@ function Filter() {
         {sortBy && (
           <button
             onClick={() =>
-              filterDispatch({
-                type: "SORT_TYPE",
-                payload: sortType === "asc" ? "dsc" : "asc",
+              updateSearchParams({
+                sortType: sortType === "asc" ? "dsc" : "asc",
               })
             }
           >
@@ -77,9 +57,7 @@ function Filter() {
       <div className={styles.filterElement}>
         <label>Catagory:-</label>
         <select
-          onChange={(e) =>
-            filterDispatch({ type: "CATEGORIES", payload: e.target.value })
-          }
+          onChange={(e) => updateSearchParams({ category: e.target.value })}
           value={category}
         >
           {catagoryList.map((catagory) => (
@@ -93,13 +71,19 @@ function Filter() {
         <label>Ratting:-</label>
         <StarRating
           currentRating={ratting}
-          onChange={(value) =>
-            filterDispatch({ type: "RATTING", payload: parseInt(value) })
-          }
+          onChange={(value) => updateSearchParams({ ratting: parseInt(value) })}
         />
       </div>
       <button
-        onClick={() => filterDispatch({ type: "RESET", payload: "" })}
+        onClick={() =>
+          removeSearchParams([
+            "sortBy",
+            "sortType",
+            "ratting",
+            "category",
+            "search",
+          ])
+        }
         style={{ width: "100%", cursor: "pointer", padding: "10px 15px" }}
       >
         Clear Filter

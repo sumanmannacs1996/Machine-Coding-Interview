@@ -3,11 +3,12 @@ import ProductWithPagination from "../Components/products/ProductWithPagination"
 import { getEcomersState } from "../Context/context";
 import styles from "./Home.module.css";
 import Filter from "../Components/filter/Filter";
+import { useGetSearchParams } from "../hooks/useGetSearchParams";
 
 function Home() {
+  const { sortBy, sortType, ratting, category, search } = useGetSearchParams();
   const {
     state: { products },
-    filterState: { sortBy, sortType, category, search, ratting },
   } = getEcomersState();
 
   const filterdProducts = useMemo(() => {
