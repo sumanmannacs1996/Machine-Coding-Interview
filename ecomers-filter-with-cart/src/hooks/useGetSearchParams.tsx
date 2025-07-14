@@ -2,16 +2,15 @@ import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export const useGetSearchParams = () => {
-  const [searchParams, setSerchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
-  const serchParams = useMemo(() => {
-    const params = {};
+  const searchParamsObj = useMemo(() => {
+    const params: Record<string, string> = {};
     searchParams.forEach((value, key) => {
-      console.log(`Parameter Name: ${key}, Value: ${value}`);
       params[key] = value;
     });
     return params;
   }, [searchParams]);
 
-  return serchParams;
+  return searchParamsObj;
 };

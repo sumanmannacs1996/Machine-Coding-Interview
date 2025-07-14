@@ -70,8 +70,10 @@ function Filter() {
       <div className={styles.filterElement}>
         <label>Ratting:-</label>
         <StarRating
-          currentRating={ratting}
-          onChange={(value) => updateSearchParams({ ratting: parseInt(value) })}
+          currentRating={Number(ratting) || 0}
+          onChange={(value) =>
+            updateSearchParams({ ratting: value.toString() })
+          }
         />
       </div>
       <button

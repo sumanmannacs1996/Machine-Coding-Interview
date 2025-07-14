@@ -4,7 +4,21 @@ import { shopingCartReducer } from "./reducer";
 // import { filterReducer, shopingCartReducer } from "./reducer";
 
 // Define the type for the context value (update as needed)
-type EcomersContextType = {};
+export type productType = {
+  id: number;
+  title: string;
+  price: number;
+  category: string;
+  thumbnail: string;
+  rating: number;
+};
+
+export type EcomersContextType = {
+  state: {
+    products: productType[];
+  };
+  dispatch: React.Dispatch<any>;
+};
 
 export const productInitialState = {
   products: [],
@@ -18,7 +32,7 @@ export const productInitialState = {
 //   ratting: 0,
 // };
 
-const EcomersContext = createContext<EcomersContextType>({});
+const EcomersContext = createContext<EcomersContextType | undefined>(undefined);
 
 type EcomersProviderProps = {
   children: ReactNode;
@@ -58,7 +72,11 @@ const EcomersProvider = ({ children }: EcomersProviderProps) => {
 };
 
 const getEcomersState = () => {
-  return useContext(EcomersContext);
+  const context = useContext(EcomersContext);
+  if (!context) {
+    throw new Error("getEcomersState must be used within an EcomersProvider");
+  }
+  return context;
 };
 
 export { EcomersContext, EcomersProvider, getEcomersState };

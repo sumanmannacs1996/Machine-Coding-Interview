@@ -1,8 +1,13 @@
 import React from "react";
 import styles from "./products.module.css";
 import StarRating from "../starRatting/StarRatting";
+import type { productType } from "../../Context/context";
 
-function ProductCard({ product }) {
+type ProductCardProps = {
+  product: productType;
+};
+
+function ProductCard({ product }: ProductCardProps) {
   const { thumbnail, title, id, price, rating } = product;
   return (
     <div className={styles.prouctCard}>

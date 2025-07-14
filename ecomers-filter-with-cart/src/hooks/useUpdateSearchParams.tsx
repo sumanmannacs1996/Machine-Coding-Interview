@@ -1,42 +1,45 @@
-import React from "react";
+import { useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export function useUpdateSearchParams() {
-  const [serchParams, setSerchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const removeSearchParams = (keyList: string[]) => {
-    console.log(keyList);
-    // Create new Object for URLSearchParams
-    const updatedSearchParams = new URLSearchParams(serchParams);
-    // Using fol loop delete all the params
-    keyList.forEach((key) => {
-      updatedSearchParams.delete(key);
-    });
-    // set updated params
-    setSerchParams(updatedSearchParams);
-  };
+  /**
+   * Removes the specified keys from the search params.
+   */
+  const removeSearchParams = useCallback(
+    (keyList: string[]) => {
+      if (!Array.isArray(keyList) || keyList.length === 0) return;
+      const updatedSearchParams = new URLSearchParams(searchParams.toString());
+      keyList.forEach((key) => {
+        updatedSearchParams.delete(key);
+      });
+      setSearchParams(updatedSearchParams);
+    },
+    [searchParams, setSearchParams]
+  );
 
-  const updateSearchParams = (
-    updatedParamObject = {},
-    removeKeyList: string[] = []
-  ) => {
-    // Create new Object for URLSearchParams
-    const updatedSearchParams = new URLSearchParams(serchParams);
-
-    // Remove
-    removeKeyList.forEach((key) => {
-      updatedSearchParams.delete(key);
-    });
-
-    // update
-    for (let key in updatedParamObject) {
-      const value = updatedParamObject[key];
-      updatedSearchParams.set(key, value);
-    }
-
-    // set updated params
-    setSerchParams(updatedSearchParams);
-  };
+  /**
+   * Updates the search params with the provided key-value pairs and optionally removes specified keys.
+   */
+  const updateSearchParams = useCallback(
+    (
+      updatedParamObject: Record<string, string> = {},
+      removeKeyList: string[] = []
+    ) => {
+      const updatedSearchParams = new URLSearchParams(searchParams.toString());
+      // Remove specified keys
+      removeKeyList.forEach((key) => {
+        updatedSearchParams.delete(key);
+      });
+      // Set new/updated params
+      Object.entries(updatedParamObject).forEach(([key, value]) => {
+        updatedSearchParams.set(key, value);
+      });
+      setSearchParams(updatedSearchParams);
+    },
+    [searchParams, setSearchParams]
+  );
 
   return { removeSearchParams, updateSearchParams };
 }

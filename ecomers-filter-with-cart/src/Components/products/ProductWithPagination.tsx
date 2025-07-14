@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import styles from "./products.module.css";
 import ProductCard from "./ProductCard";
+import type { productType } from "../../Context/context";
 
-function ProductWithPagination({ products = [] }) {
+type ProductWithPaginationProps = {
+  products: productType[];
+};
+
+function ProductWithPagination({ products = [] }: ProductWithPaginationProps) {
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(12);
 

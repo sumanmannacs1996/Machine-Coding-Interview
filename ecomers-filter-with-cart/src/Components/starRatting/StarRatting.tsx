@@ -5,7 +5,7 @@ type StarRatingProps = {
   currentRating: number;
   onChange?: (value: number) => void;
   size?: number;
-  isOnlyView: boolean;
+  isOnlyView?: boolean;
 };
 
 function StarRating({

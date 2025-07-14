@@ -6,7 +6,13 @@ import Filter from "../Components/filter/Filter";
 import { useGetSearchParams } from "../hooks/useGetSearchParams";
 
 function Home() {
-  const { sortBy, sortType, ratting, category, search } = useGetSearchParams();
+  const {
+    sortBy = "",
+    sortType = "",
+    ratting = 0,
+    category = "",
+    search = "",
+  } = useGetSearchParams();
   const {
     state: { products },
   } = getEcomersState();
@@ -29,9 +35,21 @@ function Home() {
       );
     }
     if (sortBy) {
-      filterList = filterList.sort((a, b) =>
-        sortType === "asc" ? a[sortBy] - b[sortBy] : b[sortBy] - a[sortBy]
-      );
+      filterList = filterList.sort((a, b) => {
+        const aValue = a[sortBy as keyof typeof a];
+        const bValue = b[sortBy as keyof typeof b];
+        // Only sort if both values are numbers
+        if (typeof aValue === "number" && typeof bValue === "number") {
+          return sortType === "asc" ? aValue - bValue : bValue - aValue;
+        }
+        // Fallback for string sorting
+        if (typeof aValue === "string" && typeof bValue === "string") {
+          return sortType === "asc"
+            ? aValue.localeCompare(bValue)
+            : bValue.localeCompare(aValue);
+        }
+        return 0;
+      });
     }
     return filterList;
   }, [products, sortBy, sortType, category, search, ratting]);

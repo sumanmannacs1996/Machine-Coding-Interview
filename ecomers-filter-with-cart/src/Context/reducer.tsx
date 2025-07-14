@@ -1,4 +1,9 @@
-export const shopingCartReducer = (state, action) => {
+import { productInitialState } from "./context";
+
+export const shopingCartReducer = (
+  state: typeof productInitialState,
+  action: { type: string; payload: any }
+) => {
   const { type, payload } = action;
   switch (type) {
     case "FETCH_PRODUCTS_FROM_API":
