@@ -896,3 +896,214 @@ myPr2
   .then((res1) => {
     console.log(res1);
   });
+
+// Retry witth some delay
+
+function fetchMultply(num1, num2) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let status = 500;
+      if (status === 200) {
+        resolve("Data Fetcheed Successfully!", num1 * num2);
+      } else {
+        reject("Failed to fetch the data!!");
+      }
+    }, 1000);
+  });
+}
+
+function retryWithDelay(cb, retryCount = 0, delayInMs, ...args) {
+  return new Promise((resolve, reject) => {
+    cb(...args)
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((error) => {
+        console.log("Retry left ....", retryCount);
+        if (retryCount <= 0) {
+          return reject(error);
+        }
+        setTimeout(() => {
+          retryWithDelay(cb, retryCount - 1, delayInMs, ...args)
+            .then((data) => {
+              resolve(data);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        }, delayInMs);
+      });
+  });
+}
+
+const fetcRetryWithDelay = retryWithDelay(fetchMultply, 4, 1200, 45, 65);
+
+fetcRetryWithDelay
+  .then((data) => {
+    console.log("***Successful", data);
+  })
+  .catch((error) => {
+    console.error("****Failed", error);
+  });
+
+// Implemnet promise
+
+function MyPromise(executer) {
+  let onResolve,
+    onReject,
+    isFulfilled = false,
+    isCalled = false,
+    isRejected = false,
+    value;
+
+  function resolve(val) {
+    isFulfilled = true;
+    value = val;
+    if (typeof onResolve === "function") {
+      onResolve(val);
+      isCalled = true;
+    }
+  }
+
+  this.then = function (callback) {
+    onResolve = callback;
+    if (isFulfilled && !isCalled) {
+      isCalled = true;
+      onResolve(value);
+    }
+    return this;
+  };
+
+  function reject(val) {
+    isRejected = true;
+    value = val;
+    if (typeof onReject === "function") {
+      onReject(val);
+      isCalled = true;
+    }
+  }
+
+  this.catch = function (callback) {
+    onReject = callback;
+    if (isRejected && !isCalled) {
+      isCalled = true;
+      onReject(value);
+    }
+    return this;
+  };
+
+  executer(resolve, reject);
+}
+
+let examplePromise = new MyPromise((resolve, reject) => {
+  // setTimeout(() => {
+  // resolve("Success!!");
+  reject("Failed!!");
+  // }, 2000);
+});
+
+examplePromise
+  .then((data) => {
+    console.log("MyPromise", data);
+  })
+  .catch((error) => {
+    console.error("MyPromise", error);
+  });
+
+// Js Object oriented
+
+// factory function
+
+function createUser(firstName, lastName, age) {
+  return {
+    firstName,
+    lastName,
+    getBirthYear() {
+      return new Date().getFullYear() - age;
+    },
+  };
+}
+
+const userSuman = createUser("Suman", "Manna", 29);
+const userSuman1 = createUser("Suman", "Manna", 29);
+console.log(userSuman.getBirthYear()); // 1996
+console.log(userSuman1.getBirthYear()); // 1996
+console.log(userSuman.getBirthYear === userSuman1.getBirthYear); // false
+
+// using constructer Function
+
+function CreateUser(firstName, lastName, age) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+  this.age = age;
+  // this.getBirthYear = function () {
+  //   return new Date().getFullYear() - age;
+  // };
+}
+CreateUser.prototype.getBirthYear = function () {
+  return new Date().getFullYear() - this.age;
+};
+
+const userSumanCons = new CreateUser("Suman", "Manna", 29);
+const userSumanCons1 = new CreateUser("Suman", "Manna", 29);
+console.log(userSumanCons.getBirthYear()); // 1996
+console.log(userSumanCons1.getBirthYear()); // 1996
+console.log(userSumanCons.getBirthYear === userSumanCons1.getBirthYear); // true
+
+class CreateUserClass {
+  constructor(firstName, lastName, age) {
+    // super(firstName, lastName, age);
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.age = age;
+  }
+  getBirthYear() {
+    return new Date().getFullYear() - this.age;
+  }
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
+  set fullName(fullname) {
+    const [firstName, lastName] = fullname.split(" ");
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+}
+
+const userSumanClass = new CreateUserClass("Suman", "Manna", 29);
+const userSumanClass1 = new CreateUserClass("Suman", "Manna", 29);
+console.log(userSumanClass.getBirthYear()); // 1996
+console.log(userSumanClass1.getBirthYear()); // 1996
+console.log(userSumanClass1.fullName); // Suman Manna
+userSumanClass1.fullName = "Pritom Sarkar";
+console.log(userSumanClass1.fullName); // 'Pritom Sarkar'
+
+console.log(userSumanClass.getBirthYear === userSumanClass1.getBirthYear); // true
+
+// js Inharitance
+
+let obj_1 = {
+  name_1: "obj_1",
+};
+
+let obj_2 = Object.create(obj_1);
+obj_2.name_2 = "obj_2";
+
+console.log(obj_2.name_1, obj_2.name_2); // "obj_1" "obj_2",
+
+console.log(obj_2.__proto__ === obj_1); // true
+console.log(obj_2.prototype === obj_1); // false
+console.log(obj_2.prototype === obj_1.prototype); // true
+
+console.log(obj_2.__proto__.__proto__ === obj_1.__proto__); // true
+console.log(obj_2.__proto__.__proto__ === obj_1.__proto__); // true
+
+let obj_3 = Object.create(obj_2);
+obj_3.name_3 = "obj_3";
+
+console.log(obj_3.name_1, obj_3.name_2, obj_3.name_3); // "obj_1" "obj_2" "obj_3"
+console.log(obj_3.__proto__ === obj_2); // true
+console.log(obj_3.__proto__.__proto__ === obj_1); // true
+console.log(obj_3.__proto__.__proto__.__proto__ === Object.prototype); // true
+console.log(obj_3.prototype === obj_2.prototype); // true
+console.log(obj_3.prototype === obj_1.prototype); // true
