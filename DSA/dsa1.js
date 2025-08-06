@@ -26,7 +26,11 @@ function getNthFibonacci(n) {
 function getNthFibonacciRec(n, cache = new Map()) {
   if (n <= 1) return n;
   if (cache.has(n)) return cache.get(n);
-  return getNthFibonacciRec(n - 1, cache) + getNthFibonacciRec(n - 2, cache);
+  cache.set(
+    n,
+    getNthFibonacciRec(n - 1, cache) + getNthFibonacciRec(n - 2, cache)
+  );
+  return cache.get(n);
 }
 
 console.log("getNthFibonacci", getNthFibonacci(10));
@@ -215,3 +219,165 @@ console.log(
   "removeDuplicatedInplace",
   removeDuplicatedInplace([0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 4])
 ); // 5
+
+// Ques 4 - Given an integer array nums, find the subarray with the largest sum,
+// and return its sum.
+
+// Input: [-2,1,-3,4,-1,2,1,-5,4] Output: 6, [4,-1,2,1]
+// Input: [5,4,-1,7,8] Output: 23, [5,4,-1,7,8]
+
+function getMaxSumOfSubArray(numberList) {
+  let maxSum = numberList[0],
+    start = 0,
+    end = 0;
+  function getSum(list, start, end) {
+    let sum = 0;
+    for (let i = start; i <= end; i++) {
+      sum += list[i];
+    }
+    return sum;
+  }
+  for (let i = 0; i < numberList.length; i++) {
+    for (let j = 0; j < numberList.length; j++) {
+      const sum = getSum(numberList, i, j);
+      if (sum > maxSum) {
+        maxSum = sum;
+        (start = i), (end = j);
+      }
+    }
+  }
+  return { maxSum, list: numberList.slice(start, end + 1) };
+}
+
+console.log(
+  "getMaxSumOfSubArray",
+  getMaxSumOfSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4])
+); // 6
+console.log("getMaxSumOfSubArray", getMaxSumOfSubArray([5, 4, -1, 7, 8])); //23
+
+function getMaxSumOfSubArray1(numberList) {
+  let maxSum = numberList[0],
+    start = 0,
+    end = 0;
+
+  for (let i = 0; i < numberList.length; i++) {
+    let sum = 0;
+    for (let j = i; j < numberList.length; j++) {
+      sum += numberList[j];
+      if (sum > maxSum) {
+        maxSum = sum;
+        (start = i), (end = j);
+      }
+    }
+  }
+  return { maxSum, list: numberList.slice(start, end + 1) };
+}
+
+console.log(
+  "getMaxSumOfSubArray1",
+  getMaxSumOfSubArray1([-2, 1, -3, 4, -1, 2, 1, -5, 4])
+); // 6
+console.log("getMaxSumOfSubArray1", getMaxSumOfSubArray1([5, 4, -1, 7, 8])); // 23
+
+// optimzed method
+
+function getMaxSumOfSubArrayKedansAlogo(numberList) {
+  let maxSum = numberList[0],
+    start = 0,
+    tempStart = 0,
+    end = 0,
+    sum = 0;
+  for (let i = 0; i < numberList.length; i++) {
+    sum += numberList[i];
+    if (sum > maxSum) {
+      maxSum = sum;
+      start = tempStart;
+      end = i;
+    }
+    if (sum < 0) {
+      sum = 0;
+      tempStart = i + 1;
+    }
+  }
+  return { maxSum, list: numberList.slice(start, end + 1) };
+}
+console.log(
+  "getMaxSumOfSubArrayKedansAlogo",
+  getMaxSumOfSubArrayKedansAlogo([-2, 1, -3, 4, -1, 2, 1, -5, 4, -10])
+); // {maxSum: 6 list: [5, 4, -1, 7, 8]}
+console.log(
+  "getMaxSumOfSubArrayKedansAlogo",
+  getMaxSumOfSubArrayKedansAlogo([5, 4, -1, 7, 8])
+); // {maxSum: 23, list: [5, 4, -1, 7, 8]}
+
+// Ques 4 : Sliding Window Maximum
+// You are given an array of integers nums, there is a sliding window of size k which is
+// moving from the very left of the array to the very right. You can only see the k numbers
+// in the window. Each time the sliding window moves right by one position.
+
+// Input: nums = [1, 3, -1, -3, 5, 3, 6, 7], k=3
+// Output: [3, 3, 5, 5, 6, 7]
+
+function unOptmizedSlidingWindow(numerList, k) {
+  let start = 0;
+  const final = [];
+  for (let end = k; end <= numerList.length; end++) {
+    const subArrayList = numerList.slice(start++, end);
+    final.push(Math.max(...subArrayList));
+  }
+  return final;
+}
+console.log(
+  "unOptmizedSlidingWindow",
+  unOptmizedSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3)
+); // [3, 3, 5, 5, 6, 7]
+
+function unOptmizedSlidingWindow1(numberList, k) {
+  let final = [];
+  for (let i = 0; i <= numberList.length - k; i++) {
+    let max = numberList[i];
+    for (let j = 1; j < k; j++) {
+      if (numberList[i + j] > max) {
+        max = numberList[i + j];
+      }
+    }
+    final.push(max);
+  }
+  return final;
+}
+console.log(
+  "unOptmizedSlidingWindow1",
+  unOptmizedSlidingWindow1([1, 3, -1, -3, 5, 3, 6, 7], 3)
+); // [3, 3, 5, 5, 6, 7]
+
+function optmizedSlidingWindow(numberList, k) {
+  const final = [],
+    deque = [];
+  for (let i = 0; i < numberList.length; i++) {
+    // Remove indices that are out of the current window
+    if (deque.length > 0 && deque[0] < i - k + 1) {
+      deque.shift();
+    }
+
+    // Remove indices whose corresponding values are less than numberList[i]
+    while (
+      deque.length > 0 &&
+      numberList[i] > numberList[deque[deque.length - 1]]
+    ) {
+      deque.pop();
+    }
+
+    // Add current index to the deque
+    deque.push(i);
+    // Add the maximum value of the current window to the result
+    if (i >= k - 1) {
+      final.push(numberList[deque[0]]);
+    }
+  }
+  return final;
+}
+
+console.log(
+  "optmizedSlidingWindow",
+  optmizedSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3)
+); // [3, 3, 5, 5, 6, 7]
